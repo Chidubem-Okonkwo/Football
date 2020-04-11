@@ -1,0 +1,2277 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2511
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPlayer`()\
+BEGIN\
+\
+    DECLARE randName INT DEFAULT 0;\
+    DECLARE randRace INT DEFAULT 0;\
+    DECLARE i INT DEFAULT 0;\
+    DECLARE randHyphenated INT DEFAULT 0;\
+	DECLARE randSuffix INT DEFAULT 0;\
+    DECLARE randHeight INT DEFAULT 0;\
+    DECLARE randWeight INT DEFAULT 0;\
+    DECLARE randCollege INT DEFAULT 0;\
+    DECLARE randHandedness INT DEFAULT 0;\
+    SET randHyphenated = FLOOR(RAND()*((10000)-1+1))+1;\
+	SET randSuffix = FLOOR(RAND()*((10000)-1+1))+1;\
+    SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames);\
+	SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+	SET @n =(SELECT COUNT(*) FROM AfricanAmericanFirstNames);\
+    SET i = 1;\
+    SET @pos = GetPosition();\
+/*1*/ 		IF @pos = 'CB' THEN\
+				SET randRace =  FLOOR(RAND()*((244)-1+1))+1;\
+/*2*/			IF randRace <= 238 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM CBHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM CBWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM CBHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM CBHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM CBHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM CBWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM CBWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM CBWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+			IF @pos = 'DE' THEN\
+				SET randRace =  FLOOR(RAND()*((201)-1+1))+1;\
+/*2*/			IF randRace <= 162 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+				ELSEIF randRace > 162 AND randRace <= 193  THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace = 194 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSEIF randName > 194 AND randRace <= 199 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM DEHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM DEWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM DEHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM DEHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM DEHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM DEWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM DEWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM DEWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+			IF @pos = 'DT' THEN\
+				SET randRace =  FLOOR(RAND()*((140)-1+1))+1;\
+/*2*/			IF randRace <= 115 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+				ELSEIF randRace > 115 AND randRace <= 124 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace > 124  AND randRace <= 134 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSEIF randName > 134 AND randRace <= 138 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM DTHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM DTWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM DTHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM DTHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM DTHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM DTWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM DTWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM DTWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'FB' THEN\
+				SET randRace =  FLOOR(RAND()*((33)-1+1))+1;\
+/*2*/			IF randRace <= 11 THEN\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 11 AND randRace <= 28 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace > 28  AND randRace <= 31 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSEIF randName = 32 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM FBHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM FBWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM FBHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM FBHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM FBHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM FBWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM FBWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM FBWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'K' THEN\
+				SET randRace =  FLOOR(RAND()*((37)-1+1))+1;\
+/*2*/			IF randRace <= 35 THEN\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+					ELSE \
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM KHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM KWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM KHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM KHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM KHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM KWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM KWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM KWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'LB' THEN\
+				SET randRace =  FLOOR(RAND()*((294)-1+1))+1;\
+/*2*/			IF randRace <= 222 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 222 AND randRace <= 276 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace > 276  AND randRace <= 284 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSEIF randName > 284 AND randRace <= 289 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM LBHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM LBWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM LBHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM LBHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM LBHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM LBWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM LBWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM LBWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'LS' THEN\
+				SET randRace =  FLOOR(RAND()*((37)-1+1))+1;\
+/*2*/			IF randRace <= 36 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM LSHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM LSWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM LSHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM LSHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM LSHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM LSWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM LSWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM LSWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'OL' THEN\
+				SET randRace =  FLOOR(RAND()*((352)-1+1))+1;\
+/*2*/			IF randRace <= 152 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 152 AND randRace <= 332 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace > 332  AND randRace <= 338 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSEIF randName > 338 AND randRace <= 345 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM OLHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM OLWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM OLHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM OLHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM OLHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM OLWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM OLWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM OLWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'P' THEN\
+				SET randRace =  FLOOR(RAND()*((36)-1+1))+1;\
+/*2*/			IF randRace <= 1 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSE\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM PHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM PWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM PHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM PHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM PHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM PWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM PWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM PWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'QB' THEN\
+				SET randRace =  FLOOR(RAND()*((98)-1+1))+1;\
+/*2*/			IF randRace <= 18 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 18 AND randRace <= 95 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace = 96 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM QBHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM QBWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM QBHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM QBHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM QBHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM QBWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM QBWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM QBWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'RB' THEN\
+				SET randRace =  FLOOR(RAND()*((165)-1+1))+1;\
+/*2*/			IF randRace <= 155 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 155 AND randRace <= 159 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace = 160 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM RBHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM RBWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM RBHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM RBHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM RBHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM RBWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM RBWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM RBWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'S' THEN\
+				SET randRace =  FLOOR(RAND()*((180)-1+1))+1;\
+/*2*/			IF randRace <= 153 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 153 AND randRace <= 167 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace = 168 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSEIF randName > 168 AND randRace <= 176 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM SHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM SWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM SHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM SHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM SHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM SWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM SWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM SWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'TE' THEN\
+				SET randRace =  FLOOR(RAND()*((140)-1+1))+1;\
+/*2*/			IF randRace <= 58 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 58 AND randRace <= 126 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+\
+				ELSEIF randRace > 126  AND randRace <= 128 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM PolynesianFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM PolynesianSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM PolynesianSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM PolynesianSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM PolynesianSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM PolynesianSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+   				    				\
+                ELSEIF randName > 128 AND randRace <= 134 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM TEHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM TEWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM TEHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM TEHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM TEHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM TEWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM TEWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM TEWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+/*1*/		IF @pos = 'WR' THEN\
+				SET randRace =  FLOOR(RAND()*((244)-1+1))+1;\
+/*2*/			IF randRace <= 215 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM AfricanAmericanFirstNames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanFirstNames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+								SET @firstname = (SELECT _name FROM AfricanAmericanFirstNames where row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET @totalPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames);\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						SET @n =(SELECT COUNT(*) FROM AfricanAmericanSurnames);\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname1 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+						SET i = 1;\
+						SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+						WHILE i <= @n DO\
+							SET @x = (SELECT probability FROM AfricanAmericanSurnames WHERE row_num = i);\
+							SET @currentPeople = (SELECT SUM(probability) FROM AfricanAmericanSurnames WHERE row_num <= i);\
+							IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+								SET @lastname2 =(SELECT _name FROM AfricanAmericanSurnames WHERE row_num = i);		\
+							END IF;\
+							SET i = i + 1;\
+						END WHILE;\
+    \
+				ELSEIF randRace > 215 AND randRace <= 239 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM WhiteFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM WhiteSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM WhiteSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM WhiteSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM WhiteSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM WhiteSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				\
+				ELSEIF randRace > 239  AND randRace <= 245 THEN\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM IgboFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM IgboSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM IgboSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM IgboSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM IgboSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM IgboSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+				ELSE \
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicFirstNames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicFirstNames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN \
+							SET @firstname = (SELECT _name FROM HispanicFirstNames where row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET @totalPeople = (SELECT SUM(probability) FROM HispanicSurnames);\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					SET @n =(SELECT COUNT(*) FROM HispanicSurnames);\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname1 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+    \
+					SET i = 1;\
+					SET randName = FLOOR(RAND()*((@totalPeople)-1+1))+1;\
+					WHILE i <= @n DO\
+						SET @x = (SELECT probability FROM HispanicSurnames WHERE row_num = i);\
+						SET @currentPeople = (SELECT SUM(probability) FROM HispanicSurnames WHERE row_num <= i);\
+						IF @currentPeople - randName >= 0 AND @currentPeople - randName < @x THEN\
+							SET @lastname2 =(SELECT _name FROM HispanicSurnames WHERE row_num = i);		\
+						END IF;\
+						SET i = i + 1;\
+					END WHILE;\
+/*2*/  			END IF;\
+				SET @totalHeight = (SELECT SUM(probability) FROM WRHeight);\
+                SET @totalWeight = (SELECT SUM(probability) FROM WRWeight);\
+				SET randHeight = FLOOR(RAND()*((@totalHeight)-1+1))+1;\
+                SET randWeight = FLOOR(RAND()*((@totalWeight)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM WRHeight WHERE row_num = i);\
+					SET @currentHeight = (SELECT SUM(probability) FROM WRHeight WHERE row_num <= i);\
+					IF @currentHeight - randHeight >= 0 AND @currentHeight - randHeight < @x THEN\
+						SET @height =(SELECT _height FROM WRHeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM WRWeight WHERE row_num = i);\
+					SET @currentWeight = (SELECT SUM(probability) FROM WRWeight WHERE row_num <= i);\
+					IF @currentWeight - randWeight >= 0 AND @currentWeight - randWeight < @x THEN\
+						SET @weight =(SELECT _weight FROM WRWeight WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+			END IF;\
+            \
+            SET @totalCollege = (SELECT SUM(probability) FROM Colleges);\
+			SET randCollege = FLOOR(RAND()*((@totalCollege)-1+1))+1;\
+                SET i = 1;\
+                WHILE i <= @n DO\
+					SET @x = (SELECT probability FROM Colleges WHERE row_num = i);\
+					SET @currentCollege = (SELECT SUM(probability) FROM Colleges WHERE row_num <= i);\
+					IF @currentCollege - randCollege >= 0 AND @currentCollege - randCollege < @x THEN\
+						SET @college =(SELECT _college FROM Colleges WHERE row_num = i);		\
+					END IF;\
+					SET i = i + 1;\
+				END WHILE;\
+            \
+            SET randHandedness = FLOOR(RAND()*((10)-1+1))+1;\
+            IF randHandedness = 1 THEN\
+				SET @hand = 'L';\
+			ELSE\
+				SET @hand = 'R';\
+			END IF;\
+            \
+            if randHyphenated <= 153 and randSuffix <= 1 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1, '-', @lastname2, ' IV'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college);\
+		elseif randHyphenated <= 153 and randSuffix > 1 and randSuffix <= 3 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1, '-', @lastname2, ' III'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		elseif randHyphenated <= 153 and randSuffix > 3 and randSuffix <= 6 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1, '-', @lastname2, ' II'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		elseif randHyphenated <= 153 and randSuffix > 6 and randSuffix <= 100 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1, '-', @lastname2, ' JR'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		elseif randHyphenated <= 153 and randSuffix > 100 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1, '-', @lastname2),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		elseif randHyphenated > 153 and randSuffix <= 1 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1,' IV'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		elseif randHyphenated > 153 and randSuffix > 1 and randSuffix <= 3 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1,' III'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		elseif randHyphenated > 153 and randSuffix > 3 and randSuffix <= 6 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1, ' II'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		elseif randHyphenated > 153 and randSuffix > 6 and randSuffix <= 100 then\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,concat(@lastname1, ' JR'),@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		else\
+			insert into DraftClass(First_Name,Last_Name,Primary_Position,Height,Weight,College,Handedness) values (@firstname,@lastname1,@pos,concat(@height DIV 12,'\\'',@height%12,'\\"'),@weight,@college,@hand);\
+		end if;\
+end}
